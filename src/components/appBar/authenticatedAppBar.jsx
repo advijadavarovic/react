@@ -34,44 +34,44 @@ const AuthentificatedAppBar = () => {
         i18n.changeLanguage(selectedLanguage);
     };
     return (
-        <AppBar position="static"  sx={{ backgroundColor: '#8e44ad' }}>
+        <AppBar position="static" sx={{ backgroundColor: '#8e44ad' }}>
             <Container>
-                <Toolbar>
-                    { !isDashboardRoute && (
-                    <IconButton onClick={handleBackClick} sx={{ marginRight: '16px',color: 'white' }}>
-                        <FontAwesomeIcon icon={faArrowLeft}/>
-                    </IconButton>
+                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {!isDashboardRoute && (
+                        <IconButton onClick={handleBackClick} sx={{ color: 'white' }}>
+                            <FontAwesomeIcon icon={faArrowLeft}/>
+                        </IconButton>
                     )}
-                    <FlightIcon />
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Flights scanner
-                    </Typography>
-                    <FormControl>
-                        <Select
-                            labelId="language-selector-label"
-                            id="language-selector"
-                            value={selectedLanguage}
-                            onChange={handleChangeLanguage}
-                            sx={{ border: '1px solid white', color: 'white', marginRight: '8px', height: '36px', width: '85px'}}
-                        >
-                            <MenuItem value="en">EN</MenuItem>
-                            <MenuItem value="ba">BA</MenuItem>
-                        </Select>
-                    </FormControl>
-                    {isDashboardRoute && (
-                        <>
-                            <Button color="inherit"  variant="outlined"
-                                    sx={{ border: '1px solid white', marginRight: '8px' }}
-                                    onClick={handleProfileClick}>
-                                {t('Profile')}
-                            </Button>
-                            <Button color="inherit"  variant="outlined"
-                                    sx={{ border: '1px solid white' }}
-                                    onClick={handleLogoutClick}>
-                                {t('Logout')}
-                            </Button>
-                        </>
+                    <div sx={{ display: 'flex', alignItems: 'center' }}>
+                        <FlightIcon />
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: '8px' }}>
+                            Flights scanner
+                        </Typography>
+                    </div>
+                    <div sx={{ display: 'flex', alignItems: 'center' }}>
+                        <FormControl>
+                            <Select
+                                labelId="language-selector-label"
+                                id="language-selector"
+                                value={selectedLanguage}
+                                onChange={handleChangeLanguage}
+                                sx={{ border: '1px solid white', color: 'white', marginRight: '8px', height: '36px', width: '85px' }}
+                            >
+                                <MenuItem value="en">EN</MenuItem>
+                                <MenuItem value="ba">BA</MenuItem>
+                            </Select>
+                        </FormControl>
+                        {isDashboardRoute && (
+                            <>
+                                <Button color="inherit" variant="outlined" sx={{ border: '1px solid white', marginRight: '8px' }} onClick={handleProfileClick}>
+                                    {t('Profile')}
+                                </Button>
+                                <Button color="inherit" variant="outlined" sx={{ border: '1px solid white' }} onClick={handleLogoutClick}>
+                                    {t('Logout')}
+                                </Button>
+                            </>
                         )}
+                    </div>
                 </Toolbar>
             </Container>
         </AppBar>
