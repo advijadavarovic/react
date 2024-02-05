@@ -11,9 +11,6 @@ import {useTranslation} from 'react-i18next';
 import {convertCurrency} from "../../translate/i18n";
 import useSort from "../../hooks/useSort";
 import i18n from 'i18next';
-
-
-
 const FavoriteTable = () => {
     const {setFavorites,setFavoritesData, favoritesData} = useFlightContext();
     const [sortedFavData, setSortedFavData] = useState([]);
