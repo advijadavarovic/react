@@ -1,4 +1,4 @@
-import NavigationDashboard from "../components/dashboard/NavigationDashboard";
+import Dashboard from "../components/dashboard/Dashboard";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import {auth} from "../firebase";
@@ -21,7 +21,7 @@ function DashboardPage() {
     return (
         <>
                 <AuthentificatedAppBar/>
-                <NavigationDashboard />
+                <Dashboard />
         </>
 
     );

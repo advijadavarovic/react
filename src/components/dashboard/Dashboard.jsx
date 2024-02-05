@@ -1,14 +1,14 @@
 import {Grid} from "@mui/material";
 import 'firebase/firestore';
 import {FlightProvider} from '../../context/FlightContext.jsx';
-import MainTable from "./MainTable";
-import SearchFlights from "./SearchFlights";
-import FavoriteTable from "./FavFlightsTable";
-import LastedFlightsTable from "./LastedFlights";
+import MainTable from "../widget/MainTable";
+import SearchFlights from "../widget/SearchFlights";
+import FavoriteTable from "../widget/FavoriteFlights"
+import LastedFlightsTable from "../widget/LastFlights";
 import {AuthProvider} from '../../context/AuthContext';
 import {SearchProvider} from "../../context/SearchContext";
 
-function NavigationDashboard() {
+function Dashboard() {
     return (
    <>
        <FlightProvider>
@@ -35,4 +35,4 @@ function NavigationDashboard() {
     );
 }
 
-export default NavigationDashboard;
+export default Dashboard;

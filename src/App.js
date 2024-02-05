@@ -3,7 +3,6 @@ import LinearProgress from '@mui/material/LinearProgress';
 import {useAuthContext} from "./context/AuthContext";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
-
 const LazyRootLayout = lazy(() => import( './pages/Root'));
 const LazySignUp = lazy(() => import( './pages/SignUp'));
 const LazyLogin = lazy(() => import( './pages/Login'));
