@@ -8,7 +8,6 @@ import {NavLink} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {setDoc, collection, doc} from "firebase/firestore";
 import {useTranslation} from "react-i18next";
-import {useState} from "react";
 import {useSnackbar} from '../../hooks/useSnackbar';
 function Copyright(props) {
     return (
@@ -24,7 +23,7 @@ function Copyright(props) {
 }
 const defaultTheme = createTheme();
  function SignUp() {
-     const {openSnackBar, SnacbarComponent} = useSnackbar();
+     const {openSnackBar, SnackbarComponent} = useSnackbar();
      const { t } = useTranslation();
      const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -166,7 +165,7 @@ const defaultTheme = createTheme();
                         >
                             {t('Sign Up')}
                         </Button>
-                       <SnacbarComponent/>
+                       <SnackbarComponent/>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <NavLink to = "/login"  style={{ color: '#8e44ad' }}>
