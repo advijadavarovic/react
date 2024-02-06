@@ -79,7 +79,7 @@ const ProfileForm = () => {
                 openSnackbar('Last name is required and should contain only letters.', 'error');
                 return;
             }
-            const passwordRegex = /^[A-Za-z\d!@#$%^&*]{0,6}$/;
+            const passwordRegex = /^[A-Za-z\d!@#$%^&*]{6,}$/;
             if (!passwordRegex.test(userData.newPassword) || !passwordRegex.test(userData.confirmPassword)) {
                 openSnackbar('Password must be at least 6 characters.', 'error')
                 return;
