@@ -145,7 +145,7 @@ const SearchForm = () => {
                         'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com'
                     },
                 });
-            if (response.data && response.data.length === 0) {
+            if (!response.data) {
                 setError('There is not available flights.');
                 return null;
             }
@@ -204,7 +204,7 @@ const SearchForm = () => {
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={4} md={4}>
-                    <Button onClick={handleSearch} variant="contained" sx = {{width: '50%', background: '#8e44ad'}}>
+                    <Button onClick={handleSearch} variant="contained" color = "secondary" sx = {{width: '50%', background: '#8e44ad'}}>
                         {t('Search')}
                     </Button>
                 </Grid>
