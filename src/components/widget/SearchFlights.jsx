@@ -196,7 +196,7 @@ const SearchForm = () => {
                 </Grid>
                 <Grid item xs={4} md={4}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker  label="Return"
+                                <DatePicker  label={t('Return')}
                                              value={returnValue}
                                              format="YYYY-MM-DD"
                                              onChange={(date) => handleReturnChange(date)}
