@@ -161,6 +161,7 @@ const defaultTheme = createTheme();
                             type="submit"
                             fullWidth
                             variant="contained"
+                            color = "secondary"
                             sx={{ mt: 3, mb: 2, backgroundColor: '#8e44ad', color: '#ffffff' }}
                         >
                             {t('Sign Up')}
