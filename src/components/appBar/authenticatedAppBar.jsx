@@ -7,7 +7,6 @@ import {signOut} from "firebase/auth";
 import {auth} from "../../firebase";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import {useAuthContext} from "../../context/AuthContext";
 import Cookies from 'js-cookie';
 
 const AuthentificatedAppBar = () => {

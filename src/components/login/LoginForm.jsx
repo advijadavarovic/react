@@ -5,11 +5,11 @@ import {createTheme,ThemeProvider} from '@mui/material/styles';
 import {NavLink} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useTranslation} from "react-i18next";
-import {useState} from "react";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../firebase";
 import Cookies from 'js-cookie';
 import {useSnackbar} from "../../hooks/useSnackbar";
+import {useEffect} from "react";
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -27,6 +27,13 @@ function LoginForm() {
     const {t} = useTranslation();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const {openSnackbar, SnackbarComponent} = useSnackbar();
+
+    useEffect(() => {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+            window.location.href = '/dashboard';
+        }
+    }, []);
     const onSubmit = (data) => {
         const { email, password } = data;
        try {
