@@ -11,7 +11,8 @@ import {useAuthContext} from "../../context/AuthContext";
 import {useTranslation} from "react-i18next";
 import {convertCurrency} from "../../translate/i18n";
 import useSort from "../../hooks/useSort";
-function MainTable() {
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
+function MainTabel() {
     const { itineraries, favorites, setFavoritesData, setFavorites, loading, error} = useFlightContext();
     const [sortedData, setSortedData] = useState([]);
     const {sortOrder, sortColumn, setSortColumn, setSortOrder, sortData} = useSort();
@@ -114,7 +115,14 @@ function MainTable() {
                                     </div>
                                 </TableCell>
                                 <TableCell  align="center">{itinerary.direct === 0 ? 'Yes' : 'No'}</TableCell>
-                                <TableCell  align="center">{convertCurrency(itinerary.price, 'USD', 'BAM')}{''}{'BAM'}</TableCell>
+                                <TableCell  align="center">
+                                    <div>
+                                        {convertCurrency(itinerary.price, 'USD', 'BAM')}{''}{'BAM'}
+                                    </div>
+                                    <div>
+                                        <SyncAltIcon/>
+                                    </div>
+                                    </TableCell>
                                 <TableCell  align="center">
                                     <IconButton onClick={() => handleToggleFavorite(itinerary.id)}>
                                         {favorites.includes(itinerary.id) ? <ThumbUpAltIcon color="secondary" /> : <ThumbUpOffAltIcon />}
@@ -130,4 +138,4 @@ function MainTable() {
     );
 }
 
-export default MainTable;
+export default MainTabel;

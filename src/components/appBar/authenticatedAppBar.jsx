@@ -13,7 +13,6 @@ import Cookies from 'js-cookie';
 const AuthentificatedAppBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const {setUser} = useAuthContext();
     const { t, i18n} = useTranslation();
     const isDashboardRoute = location.pathname === '/dashboard';
     const handleProfileClick = () => {

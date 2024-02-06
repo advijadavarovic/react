@@ -12,7 +12,7 @@ import {convertCurrency} from "../../translate/i18n";
 import useSort from "../../hooks/useSort";
 
 
-const FavoriteTable = () => {
+const FavoriteTabel = () => {
     const {setFavorites,setFavoritesData, favoritesData} = useFlightContext();
     const [sortedFavData, setSortedFavData] = useState([]);
     const {sortOrder, sortColumn, setSortColumn, setSortOrder, sortData} = useSort();
@@ -100,4 +100,4 @@ const FavoriteTable = () => {
     );
 };
 
-export default FavoriteTable;
+export default FavoriteTabel;

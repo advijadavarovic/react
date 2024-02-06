@@ -3,7 +3,7 @@ import {top10Airports} from '../constants/constants.js';
 import axios from "axios";
 import {addDoc, collection, getDocs, doc} from "firebase/firestore";
 import {db} from "../../firebase";
-import {parseSkyScrapperResponse} from '../parse/parsing.js';
+import {parseSkyScrapperResponse} from './parsing.js';
 import {useFlightContext} from "../../context/FlightContext";
 import {AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
@@ -212,5 +212,4 @@ const SearchForm = () => {
         </Paper>
     );
 };
-
 export default SearchForm;

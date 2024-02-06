@@ -8,7 +8,7 @@ import {db} from "../../firebase";
 import {useAuthContext} from "../../context/AuthContext";
 import { useTranslation } from 'react-i18next';
 import useSort from "../../hooks/useSort";
-const LastedFlightsTable = () => {
+const LastedFlightsTabel= () => {
     const {previousSearchResults, setPreviousSearchResults} = useFlightContext();
     const [sortedLastData, setSortedLastData] = useState([]);
     const {sortOrder, sortColumn, setSortColumn, setSortOrder, sortData} = useSort();
@@ -76,4 +76,4 @@ const LastedFlightsTable = () => {
         </Paper>
     );
 };
-export default LastedFlightsTable;
+export default LastedFlightsTabel;
