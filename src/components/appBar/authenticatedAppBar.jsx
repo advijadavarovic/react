@@ -23,7 +23,6 @@ const AuthentificatedAppBar = () => {
         try {
             await signOut(auth);
             Cookies.remove('authToken');
-            setUser(null);
             console.log('User successfully logged out.');
             navigate('/');
         } catch (error) {
