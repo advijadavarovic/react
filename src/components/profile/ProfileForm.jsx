@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import  {Button,Container, Paper, Stack, Typography, IconButton, InputAdornment, Avatar} from '@mui/material';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {db, auth} from "../../firebase";
-import {updatePassword} from 'firebase/auth';
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
 import {getDoc, doc, updateDoc} from "firebase/firestore";
 import {Email as EmailIcon } from '@mui/icons-material';
@@ -57,7 +56,7 @@ const ProfileForm = () => {
                     lastName: userData.lastName,
                 });
                 if (userData.confirmPassword) {
-                    await updatePassword(docRef, userData.confirmPassword);
+                    await updateDoc(docRef, {password: userData.confirmPassword});
                 }
                 setEditable(false);
             } catch (error) {
@@ -80,12 +79,11 @@ const ProfileForm = () => {
                 openSnackbar('Last name is required and should contain only letters.', 'error');
                 return;
             }
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-                if (userData.newPassword && !passwordRegex.test(userData.newPassword) &&
-                    userData.confirmPassword && !passwordRegex.test(userData.confirmPassword )) {
-                    openSnackbar('Password must be at least 6 characters.', 'error')
-                    return;
-                }
+            const passwordRegex = /^[A-Za-z\d!@#$%^&*]{0,6}$/;
+            if (!passwordRegex.test(userData.newPassword) || !passwordRegex.test(userData.confirmPassword)) {
+                openSnackbar('Password must be at least 6 characters.', 'error')
+                return;
+            }
             saveProfileChanges();
             setEditable(false);
             openSnackbar('Changes saved successfully!', 'success');
