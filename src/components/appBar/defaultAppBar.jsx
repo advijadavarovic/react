@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import {AppBar,Container, Toolbar,Typography, Button, Select, MenuItem,FormControl} from '@mui/material';
 import FlightIcon from '@mui/icons-material/Flight';
 import {useNavigate} from "react-router-dom";
@@ -6,8 +5,7 @@ import {useTranslation} from 'react-i18next';
 
 const CustomAppBar = () => {
     const navigate = useNavigate();
-    const [selectedLanguage, setSelectedLanguage] = useState('en');
-    const { t, i18n} = useTranslation("translation");
+    const { t, i18n} = useTranslation();
     const handleLoginClick = () => {
         navigate('/login');
     };
@@ -20,7 +18,6 @@ const CustomAppBar = () => {
 
     const handleChangeLanguage = (event) => {
         const selectedLanguage = event.target.value;
-        setSelectedLanguage(selectedLanguage);
         i18n.changeLanguage(selectedLanguage);
     };
     return (
@@ -35,7 +32,7 @@ const CustomAppBar = () => {
                         <Select
                             labelId="language-selector-label"
                             id="language-selector"
-                            value={selectedLanguage}
+                            value={i18n.language}
                             onChange={handleChangeLanguage}
                             sx={{ border: '1px solid white', color: 'white', marginRight: '8px', height: '37px'}}
                         >

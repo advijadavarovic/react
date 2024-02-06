@@ -1,17 +1,5 @@
 import * as React from 'react';
-import {
-    Avatar,
-    Button,
-    Link,
-    Grid,
-    Box,
-    Container,
-    Typography,
-    Paper,
-    CssBaseline,
-    TextField,
-    Snackbar, Alert
-} from '@mui/material';
+import {Avatar, Button, Link, Grid, Box, Container, Typography, Paper, CssBaseline, TextField, Snackbar, Alert} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {createUserWithEmailAndPassword} from "firebase/auth";
@@ -21,8 +9,7 @@ import {useForm} from "react-hook-form";
 import {setDoc, collection, doc} from "firebase/firestore";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
-import "../../translate/i18n";
-
+import {useSnackbar} from '../../hooks/useSnackbar';
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -37,20 +24,9 @@ function Copyright(props) {
 }
 const defaultTheme = createTheme();
  function SignUp() {
-     const [snackbarSeverity, setSnackbarSeverity] = useState(false);
-     const [snackbarOpen, setSnackbarOpen] = useState(false);
+     const {openSnackBar, SnacbarComponent} = useSnackbar();
      const { t } = useTranslation();
      const { register, handleSubmit, formState: { errors } } = useForm();
-     const handleSnackbarOpen = (severity) => {
-         setSnackbarSeverity(severity);
-         setSnackbarOpen(true);
-     };
-     const handleSnackbarClose = (event, reason) => {
-         if (reason === 'clickable') {
-             return;
-         }
-         setSnackbarOpen(false);
-     };
 
      const onSubmit = async (data) => {
          const { email, password, firstName, lastName } = data;
@@ -65,12 +41,11 @@ const defaultTheme = createTheme();
                  email,
                  password
              });
-             console.log('Successfully!');
              console.log(userCredential);
-             handleSnackbarOpen('success');
+             openSnackBar('Registered successful!','success');
          } catch (error) {
-             handleSnackbarOpen('error');
-             console.error('Greška prilikom registracije korisnika:', error.message);
+            openSnackBar('User already exist!', 'error');
+
          }
      };
     return (
@@ -191,11 +166,7 @@ const defaultTheme = createTheme();
                         >
                             {t('Sign Up')}
                         </Button>
-                        <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
-                            <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
-                                {snackbarSeverity === 'success' ? 'Registered successful!' : 'User already exists!'}
-                            </Alert>
-                        </Snackbar>
+                       <SnacbarComponent/>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <NavLink to = "/login"  style={{ color: '#8e44ad' }}>

@@ -30,5 +30,7 @@
   "New Password": "Nova lozinka",
   "Confirm Password": "Potvrđena lozinka",
   "Save" : "Sačuvaj",
-  "Cancel":  "Poništi"
+  "Cancel":  "Poništi",
+  "Favorite flights" : "Omiljeni letovi",
+  "Last searched flights": "Zadnji pretraživani letovi"
 }

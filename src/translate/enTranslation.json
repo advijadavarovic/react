@@ -29,5 +29,7 @@
   "New Password": "New Password",
   "Confirm Password": "Confirm Password",
   "Save" : "Save",
-  "Cancel":  "Cancel"
+  "Cancel":  "Cancel",
+  "Favorite flights" : "Favorite flights",
+  "Last searched flights": "Last searched flights"
 }

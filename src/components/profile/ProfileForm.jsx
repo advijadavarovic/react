@@ -1,109 +1,90 @@
 import React, {useEffect, useState} from 'react';
 import TextField from '@mui/material/TextField';
-import  {Button,Container} from '@mui/material';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import  {Button,Container, Paper, Stack, Typography, IconButton, InputAdornment, Avatar} from '@mui/material';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {db} from "../../firebase";
+import {db, auth} from "../../firebase";
+import {updatePassword} from 'firebase/auth';
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
 import {getDoc, doc, updateDoc} from "firebase/firestore";
-import {getAuth, onAuthStateChanged } from "firebase/auth";
-import {IconButton} from "@mui/material";
-import {InputAdornment} from '@mui/material';
+import {onAuthStateChanged } from "firebase/auth";
 import {Email as EmailIcon } from '@mui/icons-material';
 import {Lock as LockIcon } from '@mui/icons-material';
 import {faUser } from '@fortawesome/free-solid-svg-icons';
-import Avatar from "@mui/material/Avatar";
 import {useTranslation} from "react-i18next";
-import { useForm} from 'react-hook-form';
-import "../../translate/i18n";
+import {useSnackbar} from '../../hooks/useSnackbar';
 const ProfileForm = () => {
-    const [editable, setEditable] = useState(false);
-    const { control, handleSubmit, setError, formState: { errors } } = useForm();
-    const [originalUserData, setOriginalUserData] = useState({});
+    const currentUser = auth.currentUser;
     const {t} = useTranslation();
+    const {openSnackbar, SnackbarComponent} = useSnackbar();
+    const [originalUserData, setOriginalUserData] = useState({});
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
         email: '',
-        newPassword:'',
+        newPassword: '',
         confirmPassword: ''
     });
-    const auth = getAuth();
-    let unsubscribe;
-    const fetchData = async (uid) => {
-        const docRef = doc(db, "user-data", uid);
-        const docSnap = await getDoc(docRef);
-        console.log("Document data:", docSnap.data());
-        if (!editable) {
-            setUserData(docSnap.data());
-            setOriginalUserData(docSnap.data());
-        }
-    };
+    const [editable, setEditable] = useState(false);
+
     useEffect(() => {
-        unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const uid = user.uid;
-                fetchData(uid);
-            }
-        });
-        return () => {
-            if (unsubscribe) {
-                unsubscribe();
+        const fetchUserData = async () => {
+            if (currentUser) {
+                const docRef = doc(db, 'user-data', currentUser.uid); // Prilagodite ovo
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setUserData(docSnap.data());
+                    setOriginalUserData(docSnap.data());
+                } else {
+                    console.error('Document does not exist!');
+                }
             }
         };
-    }, [editable]);
-    const handleInputChange = (name, value) => {
-        if (name === 'newPassword' || name === 'confirmPassword') {
-            setUserData((prevUserData) => ({
-                ...prevUserData,
-                [name]: value,
-            }));
-        } else {
-            setUserData((prevUserData) => ({
-                ...prevUserData,
-                [name]: value,
-            }));
-        }
-    };
-    const saveProfileChanges = async () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
-        if (user) {
-            const uid = user.uid;
-            const userDocRef = doc(db, 'user-data', uid);
-            try {
-                await updateDoc(userDocRef, {
-                    firstName: userData.firstName,
-                    lastName: userData.lastName,
-                    //email: userData.email,
-                    password: userData.confirmPassword
-                });
-                alert('Successfully!');
-            } catch (error) {
-                console.error('ERROR:', error.message);
-            }}};
+        fetchUserData();
+    }, [currentUser]);
+
     const handleEditProfile = () => {
         setEditable(true);
-        setOriginalUserData({ ...userData });
-    };
-
-    const handleSaveProfile = () => {
-        if (editable) {
-            if (userData.newPassword !== userData.confirmPassword) {
-                alert('New password and confirm password must match.');
-                return;
-            }
-            saveProfileChanges();
-            setEditable(false);
-        }
     };
     const handleCancelEdit = () => {
         setUserData({ ...originalUserData });
         setEditable(false);
     };
+    const saveProfileChanges = async () => {
+        if (currentUser) {
+            const docRef = doc(db, 'user-data', currentUser.uid);
+            try {
+                await updateDoc(docRef, {
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                });
+                if (userData.confirmPassword) {
+                    await updatePassword(docRef, userData.confirmPassword);
+                }
+                setEditable(false);
+            } catch (error) {
+                console.error('Error updating profile:', error);
+            }
+        }
+    };
+
+    const handleSaveProfile = () => {
+        if (editable) {
+            if (userData.newPassword !== userData.confirmPassword) {
+                openSnackbar('New password and confirm password must match.', 'error');
+                return;
+            }
+            saveProfileChanges();
+            setEditable(false);
+            openSnackbar('Changes saved successfully!', 'success');
+        }
+    };
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+            <Paper elevation={3}
+                   sx={{border: '2px solid #8e44ad', padding: '16px',
+                       display: 'flex', flexDirection: 'column', alignItems: 'center',
+                       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                   }}>
             <Typography variant="h4" gutterBottom>
                 {t('Profile')}
             </Typography>
@@ -118,7 +99,7 @@ const ProfileForm = () => {
                 <TextField className={editable ? "": "Mui-disabled"} label={t('First Name')}
                            value={userData.firstName} disabled={!editable}
                            sx = {{ marginRight: '5px'}}
-                           onChange={(e) => handleInputChange('firstName', e.target.value)}
+                           onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
                            InputProps={{startAdornment: (
                                    <InputAdornment position="start">
                                        <FontAwesomeIcon icon={faUser} />
@@ -126,7 +107,8 @@ const ProfileForm = () => {
                 />
                 <TextField
                     className={editable ? "": "Mui-disabled"} label={t('Last Name')} value={userData.lastName}
-                    disabled={!editable} onChange={(e) => handleInputChange('lastName', e.target.value)}
+                    disabled={!editable}
+                    onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -138,7 +120,7 @@ const ProfileForm = () => {
                 <TextField
                     className={editable ? "": "Mui-disabled"} label={t('Email Address')}
                     value={userData.email} disabled
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    //onChange={(e) => handleInputChange('email', e.target.value)}
                     sx = {{marginTop: '20px', width:'495px'}}
                     InputProps={{
                         startAdornment: (
@@ -155,7 +137,7 @@ const ProfileForm = () => {
                     label={t('New Password')}
                     value={userData.newPassword || ''}
                     disabled={!editable}
-                    onChange={(e) => handleInputChange('newPassword', e.target.value)}
+                    onChange={(e) => setUserData({ ...userData, newPassword: e.target.value })}
                     sx = {{marginTop: '20px', marginRight: '5px', width: '245px'}}
                     InputProps={{
                         startAdornment: (
@@ -169,7 +151,7 @@ const ProfileForm = () => {
                     label={t('Confirm Password')}
                     value={userData.confirmPassword || ''}
                     disabled={!editable}
-                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                    onChange={(e) =>setUserData({ ...userData, confirmPassword: e.target.value })}
                     sx = {{marginTop: '20px', width: '245px'}}
                     InputProps={{
                         startAdornment: (
@@ -186,6 +168,7 @@ const ProfileForm = () => {
                         Save
                     </Button>
                 )}
+                <SnackbarComponent/>
                 {editable && (
                     <Button variant="contained" onClick={handleCancelEdit}
                             style={{ backgroundColor: '#8e44ad', color: 'white' }}>
@@ -193,6 +176,7 @@ const ProfileForm = () => {
                     </Button>
                 )}
             </Stack>
+            </Paper>
         </Container>
     );
 };

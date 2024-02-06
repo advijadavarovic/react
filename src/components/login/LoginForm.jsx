@@ -1,22 +1,15 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {Avatar,Button,CssBaseline,TextField, Grid,Box,Alert,Container, Link,Paper, Snackbar} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import {Alert, Container, Link, Paper, Snackbar} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme,ThemeProvider} from '@mui/material/styles';
 import {NavLink} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../firebase";
-import "../../translate/i18n";
-
+import Cookies from 'js-cookie';
+import {useSnackbar} from "../../hooks/useSnackbar";
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,34 +25,25 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 function LoginForm() {
     const {t} = useTranslation();
-    const [snackbarSeverity, setSnackbarSeverity] = useState('');
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const handleSnackbarOpen = (severity) => {
-        setSnackbarSeverity(severity);
-        setSnackbarOpen(true);
-    };
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickable') {
-            return;
-        }
-        setSnackbarOpen(false);
-    };
+    const {openSnackbar, SnackbarComponent} = useSnackbar();
     const onSubmit = (data) => {
         const { email, password } = data;
        try {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
+                const authToken = userCredential?.user?.getIdToken();
+                Cookies.set('authToken', authToken, { expires: 7 });
                 console.log(userCredential);
                 window.location.href = '/dashboard';
             }).catch((error) => {
             console.error(error);
-            handleSnackbarOpen('error');
+            openSnackbar('Invalid credentials. Please check your email and password.', 'error');
         });
         }
         catch(error) {
             console.log(error);
-            handleSnackbarOpen('fail');
+            openSnackbar('An error occurred during login!', 'error');
         }
     };
     return (
@@ -137,11 +121,7 @@ function LoginForm() {
                         >
                             {t('Sign In')}
                         </Button>
-                        <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
-                            <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
-                                {snackbarSeverity === 'error' ? 'Invalid credentials. Please check your email and password.' : 'An error occurred during login!'}
-                            </Alert>
-                        </Snackbar>
+                        <SnackbarComponent/>
                         <Grid container>
                             <Grid item>
                                 <NavLink to = "/signup"  style={{ color: '#8e44ad' }} >

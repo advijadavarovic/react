@@ -1,8 +1,7 @@
 import RegisterForm from "../components/signup/RegisterForm";
 import DefaultAppBar from "../components/appBar/defaultAppBar";
 
-export default function SignIn() {
-
+function SignIn() {
     return (
         <>
             <DefaultAppBar/>
@@ -10,3 +9,4 @@ export default function SignIn() {
         </>
     );
 }
+export default SignIn;

@@ -7,25 +7,25 @@ import FavoriteTable from "../widget/FavoriteFlights"
 import LastedFlightsTable from "../widget/LastFlights";
 import {AuthProvider} from '../../context/AuthContext';
 import {SearchProvider} from "../../context/SearchContext";
-
+import "./styles.css";
 function Dashboard() {
     return (
    <>
        <FlightProvider>
            <AuthProvider>
                <Grid container spacing={2}>
-                   <Grid item xs={12} md={5} sx={{ marginTop: '5px',  position: 'fixed',marginLeft: '5px' }}>
+                   <Grid item xs={12} sm={6} md={5} className="favorite">
                        <FavoriteTable />
                    </Grid>
-                   <Grid item xs={12} md={7} sx={{ marginTop: '13px',  position: 'absolute', left: '520px' }}>
+                   <Grid item xs={12} sm={6} md={7}  className="search">
                        <SearchProvider>
-                           <SearchFlights sx = {{zIndex: 1}}/>
+                           <SearchFlights sx={{ zIndex: 1 }} />
                        </SearchProvider>
                    </Grid>
-                   <Grid item xs={12} md={5} sx={{ marginTop: '13px',  position: 'fixed', top: '310px', marginLeft: '5px' }}>
+                   <Grid item xs={12} sm={6} md={5} className="last" >
                        <LastedFlightsTable />
                    </Grid>
-                   <Grid item xs={12} md={7} sx={{ marginTop: '5px',  position: 'fixed', left: '520px', top: '190px'}}>
+                   <Grid item xs={12} sm={6} md={7} className="main-table">
                        <MainTable />
                    </Grid>
                </Grid>

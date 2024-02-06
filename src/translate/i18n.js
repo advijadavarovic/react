@@ -16,9 +16,6 @@ i18n.use(initReactI18next).init({
     },
 });
 
-i18n.on('languageChanged', (lng) => {
-    console.log(`Language changed to ${lng}`);
-});
 
 export const convertCurrency = (priceString, fromCurrency, toCurrency) => {
     const cleanedPriceString = priceString.replace('$', '').replace(',', '');

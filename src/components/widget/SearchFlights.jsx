@@ -13,7 +13,6 @@ import {useAuthContext } from "../../context/AuthContext";
 import {useSearchContext} from "../../context/SearchContext";
 import {useTranslation} from "react-i18next";
 import { v4 as uuidv4 } from 'uuid';
-
 const SearchForm = () => {
     const {setItineraries, setPreviousSearchResults, setLoading,setError} = useFlightContext();
     const {fromValue, setFromValue, toValue, setToValue, departureValue, setDepartureValue,
@@ -142,28 +141,25 @@ const SearchForm = () => {
                         returnDate: dayjs(returnValue).format('YYYY-MM-DD')
                     },
                     headers: {
-                        'X-RapidAPI-Key': '6578eba3edmshbc800fdf690d3c9p12c894jsn8547bbb1931e',
+                        'X-RapidAPI-Key': 'a46967745dmsh5ebefb243949953p10ec49jsnc5fdf9940886',
                         'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com'
                     },
                 });
-            if (response.data && response.data.length > 0) {
-                return response;
-            }
-            else{
-                setError('There are no flights available.');
+            if (response.data && response.data.length === 0) {
+                setError('There is not available flights.');
                 return null;
             }
+            return response;
         } catch (error) {
             setError('Error fetching data');
         } finally {
             setLoading(false);
         }
     };
-
     return (
-        <Paper sx = {{width: '726px'}}>
+        <Paper sx={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)'}}>
             <Grid container spacing={1}>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={4} md={4}>
                     <Autocomplete
                         disablePortal
                         id="from-combo-box"
@@ -174,7 +170,7 @@ const SearchForm = () => {
                         renderInput={(params) => <TextField {...params}  label={t('From')} />}
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={4} md={4}>
                     <Autocomplete
                         disablePortal
                         id="to-combo-box"
@@ -184,11 +180,11 @@ const SearchForm = () => {
                         renderInput={(params) => <TextField {...params}  label={t('To')}/>}
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={4} md={4}>
                     <TextField label = {t('Travelers')} type= "number"  value = {travelers}
                                inputProps={{min: 1}} onChange = {handleTravelersChange}/>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={4} md={4}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker  label={t('Departure')}
                                              value={departureValue}
@@ -198,7 +194,7 @@ const SearchForm = () => {
                                              renderInput={(params) => <TextField{...params} />}/>
                     </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={4} md={4}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker  label="Return"
                                              value={returnValue}
@@ -207,7 +203,7 @@ const SearchForm = () => {
                                              renderInput={(params) => <TextField{...params} />}/>
                     </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={4} md={4}>
                     <Button onClick={handleSearch} variant="contained" sx = {{width: '50%', background: '#8e44ad'}}>
                         {t('Search')}
                     </Button>

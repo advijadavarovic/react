@@ -8,15 +8,13 @@ export const FlightProvider = ({ children }) => {
     const [favoritesData, setFavoritesData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
     return (
         <FlightContext.Provider value={{ itineraries, setItineraries,
                                          favorites, setFavorites,
                                          previousSearchResults, setPreviousSearchResults,
                                          favoritesData, setFavoritesData,
                                          loading, setLoading,
-                                         error, setError
-        }}>
+                                         error, setError}}>
             {children}
         </FlightContext.Provider>
     );

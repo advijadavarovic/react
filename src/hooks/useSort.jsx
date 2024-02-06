@@ -3,15 +3,13 @@ import { useState } from 'react';
 const useSort = () => {
     const [sortOrder, setSortOrder] = useState('asc');
     const [sortColumn, setSortColumn] = useState(null);
-
     const sortData = (data, columnId, sortOrder, setSortedData) => {
         const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
         let sorted;
-
         if (columnId === 'duration') {
             sorted = [...data].sort((a, b) => {
                 const durationA = parseDuration(a.duration);
-                const durationB = parseDuration(b.duration);
+                const durationB = parseDuration(b.duration)
                 return newSortOrder === 'asc' ? durationA - durationB : durationB - durationA;
             });
         } else if (columnId === 'direct') {
@@ -33,16 +31,13 @@ const useSort = () => {
         else {
             sorted = data;
         }
-
         setSortedData(sorted);
         return newSortOrder;
     };
-
     const parseDuration = (duration) => {
         const [hours, minutes] = duration.split('h').map((value) => parseInt(value, 10));
         return hours * 60 + minutes;
     };
-
     return {
         sortOrder,
         sortColumn,

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Paper, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, IconButton, CircularProgress, Box} from "@mui/material";
 import {useFlightContext} from '../../context/FlightContext';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDownwardSharpIcon from '@mui/icons-material/ArrowDownwardSharp';
+import ArrowUpwardSharpIcon from '@mui/icons-material/ArrowUpwardSharp';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import {addDoc, collection, doc, getDocs} from "firebase/firestore";
@@ -11,7 +11,6 @@ import {useAuthContext} from "../../context/AuthContext";
 import {useTranslation} from "react-i18next";
 import {convertCurrency} from "../../translate/i18n";
 import useSort from "../../hooks/useSort";
-
 function MainTable() {
     const { itineraries, favorites, setFavoritesData, setFavorites, loading, error} = useFlightContext();
     const [sortedData, setSortedData] = useState([]);
@@ -32,7 +31,6 @@ function MainTable() {
         const newSortOrder = sortData(itineraries, columnId, sortOrder, setSortedData);
         setSortOrder(newSortOrder);
     };
-
     const refreshFavoritesData = async () => {
         try {
             const userCollectionRef = collection(db, 'user-data');
@@ -74,7 +72,7 @@ function MainTable() {
         refreshFavoritesData();
     };
     return (
-        <Paper sx = {{ width:'726px',  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+        <Paper sx = {{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)' }}>
             {loading ? (
                 <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
                     <CircularProgress color = "secondary"/>
@@ -84,13 +82,14 @@ function MainTable() {
                     {error}
                 </Box>
             ):(
-            <TableContainer sx={{ maxHeight: 390, width: '700px', overflowY: 'auto' }}>
+            <TableContainer sx={{ maxHeight: 385, overflowY: 'auto' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             {mainColumns.map((column)=> (
                                 <TableCell key = {column.id} onClick={() => handleSort(column.id)}  align="center">
-                                    {column.name} {column.sortable && sortColumn === column.id && (sortOrder === 'asc' ? < ArrowDropUpIcon /> : <ArrowDropDownIcon/>)}
+                                    {column.name} {column.sortable && sortColumn === column.id && (sortOrder === 'asc' ?
+                                    <  ArrowUpwardSharpIcon sx={{ fontSize: '15px' }}  /> : <ArrowDownwardSharpIcon sx={{ fontSize: '15px' }}/>)}
                                 </TableCell>
                             ))}
                         </TableRow>

@@ -5,7 +5,6 @@ import {auth} from "../firebase";
 import AuthentificatedAppBar from "../components/appBar/authenticatedAppBar";
 
 function DashboardPage() {
-
     const navigate = useNavigate();
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -15,7 +14,6 @@ function DashboardPage() {
                 navigate('/dashboard');
             }
         });
-
         return () => unsubscribe();
     }, [navigate]);
     return (

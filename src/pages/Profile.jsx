@@ -5,9 +5,7 @@ import {auth} from "../firebase";
 import AuthentificatedAppBar from "../components/appBar/authenticatedAppBar";
 
 function ProfilePage() {
-
     const navigate = useNavigate();
-
     useEffect(() => {
         const checkAuthState = () => {
             const currentUser = auth.currentUser;
@@ -15,19 +13,16 @@ function ProfilePage() {
                 navigate('/login');
             }
         };
-
         const unsubscribe = auth.onAuthStateChanged(checkAuthState);
         checkAuthState();
 
         return () => unsubscribe();
     }, [navigate]);
-
     return (
         <>
             <AuthentificatedAppBar/>
             <ProfileForm />
         </>
-
     );
 }
 
