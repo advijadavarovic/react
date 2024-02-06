@@ -6,7 +6,6 @@ import {db, auth} from "../../firebase";
 import {updatePassword} from 'firebase/auth';
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
 import {getDoc, doc, updateDoc} from "firebase/firestore";
-import {onAuthStateChanged } from "firebase/auth";
 import {Email as EmailIcon } from '@mui/icons-material';
 import {Lock as LockIcon } from '@mui/icons-material';
 import {faUser } from '@fortawesome/free-solid-svg-icons';
@@ -66,13 +65,27 @@ const ProfileForm = () => {
             }
         }
     };
-
     const handleSaveProfile = () => {
         if (editable) {
             if (userData.newPassword !== userData.confirmPassword) {
                 openSnackbar('New password and confirm password must match.', 'error');
                 return;
             }
+            const nameRegex = /^[a-zA-Z]+$/;
+            if (!userData.firstName || !nameRegex.test(userData.firstName)) {
+                openSnackbar('First name is required and should contain only letters.', 'error');
+                return;
+            }
+            if (!userData.lastName || !nameRegex.test(userData.lastName)) {
+                openSnackbar('Last name is required and should contain only letters.', 'error');
+                return;
+            }
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                if (userData.newPassword && !passwordRegex.test(userData.newPassword) &&
+                    userData.confirmPassword && !passwordRegex.test(userData.confirmPassword )) {
+                    openSnackbar('Password must be at least 6 characters.', 'error')
+                    return;
+                }
             saveProfileChanges();
             setEditable(false);
             openSnackbar('Changes saved successfully!', 'success');
