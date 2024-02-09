@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppBar,Container, Toolbar,Typography, Button, Select, MenuItem,FormControl, IconButton} from '@mui/material';
 import FlightIcon from '@mui/icons-material/Flight';
 import {useNavigate, useLocation} from "react-router-dom";
@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 const AuthentificatedAppBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
     const { t, i18n} = useTranslation();
     const isDashboardRoute = location.pathname === '/dashboard';
     const handleProfileClick = () => {
@@ -31,11 +32,17 @@ const AuthentificatedAppBar = () => {
         navigate('/dashboard');
     };
     const handleChangeLanguage = (event) => {
-        const selectedLanguage = event.target.value;
-        i18n.changeLanguage(selectedLanguage).then((t) => {
-            console.log('Language changed to:', selectedLanguage);
+        const newSelectedLanguage = event.target.value;
+        i18n.changeLanguage(newSelectedLanguage).then((t) => {
+            console.log('Language changed to:', newSelectedLanguage);
+            setSelectedLanguage(newSelectedLanguage);
+            localStorage.setItem('selectedLanguage', newSelectedLanguage);
         });
     };
+    useEffect(() => {
+        i18n.changeLanguage(selectedLanguage);
+    }, [selectedLanguage]);
+
     return (
         <AppBar position="static"  sx={{ backgroundColor: '#8e44ad' }}>
             <Container>
@@ -47,7 +54,7 @@ const AuthentificatedAppBar = () => {
                     )}
                     <FlightIcon />
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Flights scanner
+                        {t('Flights scanner')}
                     </Typography>
                     <FormControl>
                         <Select
@@ -55,29 +62,34 @@ const AuthentificatedAppBar = () => {
                             id="language-selector"
                             value={i18n.language}
                             onChange={handleChangeLanguage}
-                            sx={{ border: '1px solid white', color: 'white', marginRight: '8px', height: '36px', width: '85px'}}
+                            sx={{ border: '1px solid white', color: 'white', height: '36px', width: '85px', '@media (max-width: 600px)': {
+                                    width: '75px', marginRight: '28px'
+                                },}}
                         >
-                            <MenuItem value="en">EN</MenuItem>
-                            <MenuItem value="ba">BA</MenuItem>
+                            <MenuItem value="en">{t('EN')}</MenuItem>
+                            <MenuItem value="ba">{t('BS')}</MenuItem>
                         </Select>
                     </FormControl>
                     {isDashboardRoute && (
                         <>
                             <Button color="inherit"  variant="outlined"
-                                    sx={{ border: '1px solid white', marginRight: '8px' }}
+                                    sx={{ border: '1px solid white', marginLeft: '8px' }}
                                     onClick={handleProfileClick}>
                                 {t('Profile')}
                             </Button>
                             <Button color="inherit"  variant="outlined"
-                                    sx={{ border: '1px solid white' }}
+                                    sx={{ border: '1px solid white',  marginLeft: '8px'  }}
                                     onClick={handleLogoutClick}>
                                 {t('Logout')}
                             </Button>
                         </>
-                        )}
+                       )}
                 </Toolbar>
             </Container>
         </AppBar>
     );
 };
 export default AuthentificatedAppBar;
+
+
+

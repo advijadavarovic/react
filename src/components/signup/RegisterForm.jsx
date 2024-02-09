@@ -9,21 +9,10 @@ import {useForm} from "react-hook-form";
 import {setDoc, collection, doc} from "firebase/firestore";
 import {useTranslation} from "react-i18next";
 import {useSnackbar} from '../../hooks/useSnackbar';
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://www.bing.com/ck/a?!&&p=6395dc94e6f83fe6JmltdHM9MTcwNjkxODQwMCZpZ3VpZD0xNmIxZmUxYy0zYTQ3LTZjMzAtMmFmZC1lZGExM2IwMzZkYWMmaW5zaWQ9NTIwOA&ptn=3&ver=2&hsh=3&fclid=16b1fe1c-3a47-6c30-2afd-eda13b036dac&psq=serapion&u=a1aHR0cHM6Ly9zZXJhcGlvbi5uZXQv&ntb=1">
-                Serapion
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Copyright from "../copyright/Copyright";
 const defaultTheme = createTheme();
  function SignUp() {
-     const {openSnackBar, SnackbarComponent} = useSnackbar();
+     const {openSnackbar, SnackbarComponent} = useSnackbar();
      const { t } = useTranslation();
      const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -41,9 +30,10 @@ const defaultTheme = createTheme();
                  password
              });
              console.log(userCredential);
-             openSnackBar('Registered successful!','success');
+             window.location.href = '/dashboard';
+             openSnackbar(t('Registered successful!'),'success');
          } catch (error) {
-            openSnackBar('User already exist!', 'error');
+            openSnackbar(t('User already exist!'), 'error');
 
          }
      };
@@ -68,7 +58,7 @@ const defaultTheme = createTheme();
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     {...register('firstName', {
-                                        required: 'Name is required.',
+                                        required: t('First Name is required.'),
                                     })}
                                     name="firstName"
                                     required
@@ -90,7 +80,7 @@ const defaultTheme = createTheme();
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     {...register('lastName', {
-                                        required: 'LastName is required.',
+                                        required: t('Last Name is required.'),
                                     })}
                                     required
                                     fullWidth
@@ -110,10 +100,10 @@ const defaultTheme = createTheme();
                             <Grid item xs={12}>
                                 <TextField
                                     {...register('email', {
-                                        required: 'Email is required.',
+                                        required: t('Email is required.'),
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: 'Please enter a valid email address.',},
+                                            message: t('Please enter a valid email address.'),},
                                     })}
                                     required
                                     fullWidth
@@ -134,10 +124,10 @@ const defaultTheme = createTheme();
                             <Grid item xs={12}>
                                 <TextField
                                     {...register('password', {
-                                        required: 'Password is required.',
+                                        required: t('Password is required.'),
                                         minLength: {
                                             value: 6,
-                                            message: 'Password must have at least 6 characters.',},
+                                            message: t('The password must have at least 6 characters.'),},
                                     })}
                                     required
                                     fullWidth

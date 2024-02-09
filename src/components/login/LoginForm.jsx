@@ -9,31 +9,22 @@ import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../firebase";
 import Cookies from 'js-cookie';
 import {useSnackbar} from "../../hooks/useSnackbar";
+import Copyright from "../copyright/Copyright";
+import {useNavigate} from "react-router-dom";
+import {useAuthContext} from "../../context/AuthContext";
 import {useEffect} from "react";
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://www.bing.com/ck/a?!&&p=6395dc94e6f83fe6JmltdHM9MTcwNjkxODQwMCZpZ3VpZD0xNmIxZmUxYy0zYTQ3LTZjMzAtMmFmZC1lZGExM2IwMzZkYWMmaW5zaWQ9NTIwOA&ptn=3&ver=2&hsh=3&fclid=16b1fe1c-3a47-6c30-2afd-eda13b036dac&psq=serapion&u=a1aHR0cHM6Ly9zZXJhcGlvbi5uZXQv&ntb=1">
-                Serapion
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 const defaultTheme = createTheme();
 function LoginForm() {
+    const user = useAuthContext();
     const {t} = useTranslation();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const {openSnackbar, SnackbarComponent} = useSnackbar();
-
+    const navigate = useNavigate();
     useEffect(() => {
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-            window.location.href = '/dashboard';
+        if (user) {
+           navigate('/dashboard');
         }
-    }, []);
+    }, [user]);
     const onSubmit = (data) => {
         const { email, password } = data;
        try {
@@ -42,15 +33,15 @@ function LoginForm() {
                 const authToken = userCredential?.user?.getIdToken();
                 Cookies.set('authToken', authToken, { expires: 7 });
                 console.log(userCredential);
-                window.location.href = '/dashboard';
+                navigate('/dashboard');
             }).catch((error) => {
             console.error(error);
-            openSnackbar('Invalid credentials. Please check your email and password.', 'error');
+            openSnackbar(t('Invalid credentials. Please check your email and password.'), 'error');
         });
         }
         catch(error) {
             console.log(error);
-            openSnackbar('An error occurred during login!', 'error');
+            openSnackbar(t('An error occurred during login!'), 'error');
         }
     };
     return (
@@ -73,10 +64,10 @@ function LoginForm() {
                     <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                         <TextField
                             {...register('email', {
-                                required: 'Email is required.',
+                                required: t('Email is required.'),
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: 'Please enter a valid email address.',
+                                    message: t('Please enter a valid email address.'),
                                 },
                             })}
                             margin="normal"
@@ -97,10 +88,10 @@ function LoginForm() {
                             }}/>
                         <TextField
                             {...register('password', {
-                                required: 'Password is required.',
+                                required: t('Password is required.'),
                                 minLength: {
                                     value: 6,
-                                    message: 'The password must have at least 6 characters.',
+                                    message: t('The password must have at least 6 characters.'),
                                 },
                             })}
                             margin="normal"

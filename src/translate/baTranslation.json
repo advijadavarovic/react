@@ -32,5 +32,25 @@
   "Save" : "Sačuvaj",
   "Cancel":  "Poništi",
   "Favorite flights" : "Omiljeni letovi",
-  "Last searched flights": "Zadnji pretraživani letovi"
+  "Last searched flights": "Zadnji pretraživani letovi",
+  "Find the next place to visit!": "Pronađite sljedeće mjesto za posjetiti!",
+  "Discover amazing places at exclusive deals!": "Otkrijte nevjerojatna mjesta po ekskluzivnim ponudama!",
+  "Flights scanner": "Skener letova",
+  "EN": "EN",
+  "BA": "BA",
+  "Date": "Datum",
+  "Invalid credentials. Please check your email and password.": "Nevažeći akreditivi. Molimo provjerite svoju e-poštu i lozinku.",
+  "An error occurred during login!": "Došlo je do greške prilikom prijave!",
+  "Email is required.": "Email je obavezan.",
+  "Please enter a valid email address." : "Molimo Vas da unesete validnu email adresu.",
+  "Password is required.": "Lozinka je obavezna.",
+  "The password must have at least 6 characters.": "Lozinka mora imati najmanje 6 znakova.",
+  "Registered successful!": "Uspješno registrovano!",
+  "User already exist!": "Korisnik već postoji!",
+  "First Name is required.": "Ime je obavezno.",
+  "Last Name is required.": "Prezime je obavezno.",
+  "New password and confirm password must match.": "Nova lozinka i potvrđena lozinka moraju se podudarati.",
+  "Changes saved successfully!": "Promjene su uspješno sačuvane!"
+
+
 }

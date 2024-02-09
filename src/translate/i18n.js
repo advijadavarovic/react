@@ -15,12 +15,3 @@ i18n.use(initReactI18next).init({
         ba: { translation: baTranslation }
     },
 });
-
-
-export const convertCurrency = (priceString, fromCurrency, toCurrency) => {
-    const cleanedPriceString = priceString.replace('$', '').replace(',', '');
-    const amount = parseFloat(cleanedPriceString);
-    const conversionRate = 1.81;
-    const convertedAmount = amount * conversionRate;
-    return convertedAmount.toFixed(2);
-};

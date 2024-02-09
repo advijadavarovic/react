@@ -20,7 +20,7 @@ function App() {
               <Route path="login" element={<LazyLogin />} />
               <Route
                   path="dashboard"
-                  element={user ? <LazyDashboardPage /> : <LazyLogin />}
+                  element={<LazyDashboardPage/>}
               />
               <Route
                   path="profile"

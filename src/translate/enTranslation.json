@@ -32,5 +32,24 @@
   "Save" : "Save",
   "Cancel":  "Cancel",
   "Favorite flights" : "Favorite flights",
-  "Last searched flights": "Last searched flights"
+  "Last searched flights": "Last searched flights",
+  "Find the next place to visit!": "Find the next place to visit!",
+  "Discover amazing places at exclusive deals!": "Discover amazing places at exclusive deals!",
+  "Flights scanner": "Flights scanner",
+  "EN": "EN",
+  "BS": "BS",
+  "Date": "Date",
+  "Invalid credentials. Please check your email and password.": "Invalid credentials. Please check your email and password.",
+  "An error occurred during login!": "An error occurred during login!",
+  "Email is required.": "Email is required.",
+  "Please enter a valid email address." : "Please enter a valid email address.",
+  "Password is required.": "Password is required.",
+  "The password must have at least 6 characters.": "The password must have at least 6 characters.",
+  "Registered successful!": "Registered successful!",
+  "User already exist!": "User already exist!",
+  "First Name is required.": "First Name is required.",
+  "Last Name is required.": "Last Name is required.",
+  "New password and confirm password must match.": "New password and confirm password must match.",
+  "Changes saved successfully!": "Changes saved successfully!"
+
 }

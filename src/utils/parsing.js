@@ -20,6 +20,12 @@ export function parseSkyScrapperResponse(response) {
                 origin: itinerary.legs[0].origin.id,
                 destination: itinerary.legs[0].destination.id,
                 favorite: false,
+                departureReturn: itinerary.legs[1].departure.split('T')[1].split(':').slice(0, 2).join(':'),
+                arrivalReturn: itinerary.legs[1].arrival.split('T')[1].split(':').slice(0, 2).join(':'),
+                durationReturn: formatMinutes(itinerary.legs[1].durationInMinutes),
+                displayCodeReturn: itinerary.legs[1].origin.id + '-' + itinerary.legs[1].destination.id,
+                date: itinerary.legs[0].departure.split('T')[0],
+                dateReturn: itinerary.legs[1].departure.split('T')[0],
             };
             resultObject.itineraries.push(parsedData);
         });

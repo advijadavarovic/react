@@ -15,9 +15,9 @@ function ProfilePage() {
         };
         const unsubscribe = auth.onAuthStateChanged(checkAuthState);
         checkAuthState();
-
         return () => unsubscribe();
     }, [navigate]);
+
     return (
         <>
             <AuthentificatedAppBar/>

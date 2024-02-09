@@ -3,7 +3,7 @@ import {top10Airports} from '../constants/constants.js';
 import axios from "axios";
 import {addDoc, collection, getDocs, doc} from "firebase/firestore";
 import {db} from "../../firebase";
-import {parseSkyScrapperResponse} from './parsing.js';
+import {parseSkyScrapperResponse} from '../../utils/parsing.js';
 import {useFlightContext} from "../../context/FlightContext";
 import {AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
@@ -17,6 +17,9 @@ const SearchForm = () => {
     const {setItineraries, setPreviousSearchResults, setLoading,setError} = useFlightContext();
     const {fromValue, setFromValue, toValue, setToValue, departureValue, setDepartureValue,
            returnValue, setReturnValue, travelers, setTravelers} = useSearchContext();
+    const today = dayjs();
+    const isBeforeToday = (date) => dayjs(date).isBefore(today);
+    const isTodayDate = (date) => dayjs(date).isSame(today, 'day');
     const user = useAuthContext();
     const { t } = useTranslation();
     const handleFromChange = (event, newValue) => {
@@ -33,9 +36,13 @@ const SearchForm = () => {
     };
     const handleTravelersChange = (event) => {
         const newValue = event.target.value;
-        setTravelers(newValue);
+        if (!isNaN(newValue)) {
+            const parsedValue = parseInt(newValue, 10);
+            if (parsedValue >= 1) {
+                setTravelers(parsedValue);
+            }
+        }
     };
-
     const refreshLastData = async () => {
         try {
             const userCollectionRef = collection(db, 'user-data');
@@ -141,7 +148,7 @@ const SearchForm = () => {
                         returnDate: dayjs(returnValue).format('YYYY-MM-DD')
                     },
                     headers: {
-                        'X-RapidAPI-Key': 'a46967745dmsh5ebefb243949953p10ec49jsnc5fdf9940886',
+                        'X-RapidAPI-Key': '736adc7e8dmsh10b856ebe808a95p1ea413jsnaf12a93f1f66',
                         'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com'
                     },
                 });
@@ -187,18 +194,20 @@ const SearchForm = () => {
                 <Grid item xs={4} md={4}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker  label={t('Departure')}
-                                             value={departureValue}
                                              format="YYYY-MM-DD"
                                              sx = {{marginLeft: '3%', marginBottom: '3%'}}
+                                             shouldDisableDate={(date) => isBeforeToday(date) || isTodayDate(date)}
                                              onChange={(date) => handleDepartureChange(date)}
-                                             renderInput={(params) => <TextField{...params} />}/>
+                                             renderInput={(params) => <TextField{...params}  sx={{
+                                                 '& .MuiOutlinedInput-root': {
+                                                     borderColor: 'grey',},}} />}/>
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={4} md={4}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker  label={t('Return')}
-                                             value={returnValue}
                                              format="YYYY-MM-DD"
+                                             shouldDisableDate={(date) => isBeforeToday(date) || isTodayDate(date)}
                                              onChange={(date) => handleReturnChange(date)}
                                              renderInput={(params) => <TextField{...params} />}/>
                     </LocalizationProvider>
