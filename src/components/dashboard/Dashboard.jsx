@@ -12,20 +12,21 @@ function Dashboard() {
    <>
        <FlightProvider>
            <AuthProvider>
-               <Grid container spacing={2}>
-                   <Grid item xs={12} sm={6} md={5}  sx = {{marginTop: '5px'}}>
+               <Grid container spacing={1}>
+                   <Grid item xs={12} sm={6} md={5} sx={{ marginTop: '5px' }}>
                        <FavoriteTabel />
+                       <Grid sx = {{ marginTop: '5px'}}>
+                           <LastedFlightsTabel />
+                       </Grid>
                    </Grid>
-                   <Grid item xs={12} sm={6} md={7} sx = {{marginTop: '13px'}}>
+
+                   <Grid item xs={12} sm={6} md={7} sx={{ marginTop: '13px' }}>
                        <SearchProvider>
                            <SearchFlights sx={{ zIndex: 1 }} />
                        </SearchProvider>
-                   </Grid>
-                   <Grid item xs={12} sm={6} md={5} >
-                       <LastedFlightsTabel />
-                   </Grid>
-                   <Grid item xs={12} sm={6} md={7}>
-                       <MainTabel />
+                       <Grid sx = {{ marginTop: '5px'}}>
+                           <MainTabel/>
+                       </Grid>
                    </Grid>
                </Grid>
            </AuthProvider>
