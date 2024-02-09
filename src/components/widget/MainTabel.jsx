@@ -100,7 +100,7 @@ function MainTabel() {
                     {error}
                 </Box>
             ):(
-            <TableContainer sx={{ maxHeight: 385, overflowY: 'auto' }}>
+            <TableContainer sx={{ maxHeight: 388, overflowY: 'auto' }}>
                 <Table>
                     <TableHead>
                         <TableRow>

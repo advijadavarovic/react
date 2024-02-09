@@ -73,7 +73,7 @@ const FavoriteTabel = () => {
     return (
         <Paper sx={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)' }}>
             <Typography variant="h10" sx = {{marginLeft: '5px', color: '#8e44ad'}}>{t('Favorite flights')}</Typography>
-                <TableContainer sx={{ maxHeight: 235, overflowY: 'auto' }}>
+                <TableContainer sx={{ maxHeight: 240, overflowY: 'auto' }}>
                     <Table>
                         <TableHead>
                             <TableRow>
